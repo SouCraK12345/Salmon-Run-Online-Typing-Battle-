@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      .center{
+        margin:0 auto;
+        text-align: center;
+      }
+      body{
+        width: 100%;
+      }
+      canvas{
+        position: absolute;
+        top:0px;
+        left:calc(50% - 200px);
+      }
+      .state{
+        position: absolute;
+        width: 400px;
+        height: 80px;
+        background-color: black;
+        top: 400px;
+        left:calc(50% - 200px);
+      }
+      .input{
+        background-color: black;
+        width: 400px;
+        height: 80px;
+        position: absolute;
+        top:320px;
+        left:calc(50% - 200px);
+      }
+      .type-text{
+        width:240px;
+        position: absolute;
+        top:40px;
+        left:calc(50% - 120px);
+      }
+      .ready{
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game">
+      <canvas></canvas>
+      <div class="input">
+        <form onsubmit="sumbit();return false;">
+          <input type="text" class="type-text">
+        </form>
+      </div>
+      <div class="state"></div>
+    </div>
+    <div class="login">
+      <h3>次のスタートは<label class="time"></label>後です</h3>
+      <p>しばらくお待ちください...</p>
+    </div>
+    <dialog class="name">
+      <p>ユーザー名を入力してください</p>
+      <form onsubmit="name_input();return false;">
+        <input type="text" class="user-name">
+      </form>
+    </dialog>
+    <div class="ready">
+      <h1 class="center">準備はいい?</h1>
+      <p class="center">開始まであと<label class="time"></label></p>
+    </div>
+    <div class="order"></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      class variable{
+        constructor(){
+          this.bt = []
+          this.ot = []
+          this.bat = []
+          this.oat = []
+          this.sound = new Audio()
+          this.sound.src = "https://sakaicenter-my.sharepoint.com/personal/17006552_ss_sakai_ed_jp/Documents/%E3%82%B5%E3%83%A2%E3%82%BF%E9%96%A2%E4%BF%82/%E3%82%B5%E3%83%BC%E3%83%A2%E3%83%B3%E3%83%A9%E3%83%B3BGM%E3%80%8C%E9%81%8B%E9%88%8D%E6%A0%B9(Chaos%20Carnival)%E3%80%8D%E3%81%AE%E3%83%A4%E3%83%90%E3%81%84%E6%8B%8D%E5%AD%90%E3%82%92%E8%A7%A3%E8%AA%AC%E3%80%90%E3%82%B9%E3%83%97%E3%83%A9%E3%83%88%E3%82%A5%E3%83%BC%E3%83%B33%E3%80%91.mp3";
+          this.sound2 = new Audio()
+          this.sound2.src = "https://sakaicenter-my.sharepoint.com/personal/17006552_ss_sakai_ed_jp/Documents/%E3%82%B5%E3%83%A2%E3%82%BF%E9%96%A2%E4%BF%82/Footsteps03-1L.mp3";
+        }
+        set beforeText(text){
+          this.bt = text
+        }
+        get beforeText(){
+          return this.bt
+        }
+        set onlineText(text){
+          this.ot = text
+        }
+        get onlineText(){
+          return this.ot
+        }
+        set onlineAllText(text){
+          this.oat = text
+        }
+        get onlineAllText(){
+          return this.oat
+        }
+      }
+      var onlineVar = new variable()
+      class main{
+        constructor(name){
+          this.name = name
+          this.canvas = document.querySelector("canvas")
+          this.input = document.querySelector("input")
+          this.state = document.querySelector(".state")
+          this.input.addEventListener("keyup",function(e){if(e.key == "Tab"){alert("タブキーを使ってずるしないでください");this.input.value = ""}})
+          this.canvas.width = 400
+          this.canvas.height = 320
+          // google.script.run.clear()
+          this.ctx = this.canvas.getContext("2d")
+          this.x = 350
+          this.text = ""
+          this.level = 0
+          this.speed = 3
+          this.num = 0
+          this.point = -1
+          this.starttimer = Math.floor(Date.now()/1000)
+          this.image = new Image()
+          this.image2 = new Image()
+          this.image3 = new Image()
+          this.image4 = new Image()
+          this.image5 = new Image()
+          this.choice = [
+              ["メモ","リピート","フォルダ","ファイル","まぐろ","イカ","たちうお","タコ","鮭","サーモン","こんにちは","Google","Excel","Word","ここはどこ?","あなただれ?","私は誰?","きつね","キーボード","シャッフル","デプロイ","英語","English","What's this?","アサリ","エリア","ホコ","ヤグラ","ナワバリ","office","onedrive","炙りカルビ","腕時計","ライトアップ","松茸ご飯","完全燃焼"],
+              ["おはようございます","今日はいい天気ですね","Am I a human?","あなたの名前は何ですか?","ジャンプポイント","エスカレーター","いいお味ですね","ただいま勉強中","エンゼルフィッシュ","生麦生米生卵","からくり人形"],
+              ["隣の客はよく柿食う客だ","すもももももももものうち","メロンもペロンと食べた","マサチューセッツ工科大学","なぜあなたは話しているのですか?","マンションの一室","スイーツ食べ放題","少林寺拳法","キャラメルポップコーン","カレーライス始めました","窓の外は冷たい雪","明日は明日の風が吹く","特賞は世界一周旅行","財布がお札でパンパンです"]
+          ]
+          this.image.src = "https://sakaicenter-my.sharepoint.com/personal/17006552_ss_sakai_ed_jp/Documents/%E3%82%B5%E3%83%A2%E3%82%BF%E9%96%A2%E4%BF%82/kojake.png";
+          this.image2.src = "https://sakaicenter-my.sharepoint.com/personal/17006552_ss_sakai_ed_jp/Documents/%E3%82%B5%E3%83%A2%E3%82%BF%E9%96%A2%E4%BF%82/typing_point.png";
+          this.image3.src = "https://sakaicenter-my.sharepoint.com/personal/17006552_ss_sakai_ed_jp/Documents/%E3%82%B5%E3%83%A2%E3%82%BF%E9%96%A2%E4%BF%82/finish!.png";
+          this.image4.src = "https://sakaicenter-my.sharepoint.com/personal/17006552_ss_sakai_ed_jp/Documents/%E3%82%B5%E3%83%A2%E3%82%BF%E9%96%A2%E4%BF%82/work's%20over.png";
+          this.image5.src = "https://sakaicenter-my.sharepoint.com/personal/17006552_ss_sakai_ed_jp/Documents/%E3%82%B5%E3%83%A2%E3%82%BF%E9%96%A2%E4%BF%82/mini_dot.png";
+          try{
+            onlineVar.sound.play()
+          }catch(e){}
+          // google.script.run.withSuccessHandler(function(e){
+          //   onlineVar.beforeText = e[0]
+          //   onlineVar.onlineText = e[0]
+          //   setTimeout(load,1000)
+          // }).withFailureHandler().get()
+        }
+        getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+        }
+        display(){
+          this.input.focus()
+          this.ctx.fillRect(0,0,400,320)
+          this.ctx.clearRect(5,5,390,310)
+          this.ctx.fillRect(0,250,400,10)
+          this.ctx.drawImage(this.image,this.x,208)
+          this.ctx.drawImage(this.image2,250,10)
+          this.ctx.drawImage(this.image5,0,200)
+          this.ctx.font = "15px ヒラギノ角ゴ ProN W3"
+          this.ctx.fillText(this.text,5,275)
+          this.ctx.font = "30px Mv Boli"
+          this.ctx.fillText(`x${this.point}`,300,40)
+          this.ctx.fillText(`${100-(Math.floor(Date.now()/1000) - this.starttimer)}`,30,40)
+          if(onlineVar.beforeText[0] != onlineVar.onlineText[0] && typeof onlineVar.onlineText == "undefined"){
+            this.state.innerHTML = `<p style="color:#ffffff;">ユーザー名${onlineVar.onlineText[0]}が${onlineVar.onlineText[1]}で${{true:"終了!",false:"失敗!"}[onlineVar.onlineText[2]]}</p>`
+          }
+          if(100-(Math.floor(Date.now()/1000) - this.starttimer) < 1){
+            return false
+          }
+          if(this.x < 0){
+            this.gameover()
+            return 2
+          }
+          this.x -= this.speed
+          return true
+        }
+        newText(){
+          this.point += this.level+1
+          if(this.choice[0].length > 20){
+            this.level = 0
+            this.num = this.getRandomInt(0,this.choice[0].length)
+          }else if(this.choice[1].length > 2){
+            this.level = 1
+            this.num = this.getRandomInt(0,this.choice[1].length)
+          }else if(this.choice[2].length > 2){
+            this.level = 2
+            this.num = this.getRandomInt(0,this.choice[2].length)
+          }else{
+            this.choice = [
+              ["メモ","リピート","フォルダ","ファイル","まぐろ","イカ","たちうお","タコ","鮭","サーモン","こんにちは","Google","Excel","Word","ここはどこ?","あなただれ?","私は誰?","きつね","キーボード","シャッフル","デプロイ","英語","English","What's this?","アサリ","エリア","ホコ","ヤグラ","ナワバリ","office","onedrive","炙りカルビ","腕時計","ライトアップ","松茸ご飯","完全燃焼"],
+              ["おはようございます","今日はいい天気ですね","Am I a human?","あなたの名前は何ですか?","ジャンプポイント","エスカレーター","いいお味ですね","ただいま勉強中","エンゼルフィッシュ","生麦生米生卵","からくり人形"],
+              ["隣の客はよく柿食う客だ","すもももももももものうち","メロンもペロンと食べた","マサチューセッツ工科大学","なぜあなたは話しているのですか?","マンションの一室","スイーツ食べ放題","少林寺拳法","キャラメルポップコーン","カレーライス始めました","窓の外は冷たい雪","明日は明日の風が吹く","特賞は世界一周旅行","財布がお札でパンパンです"]
+          ]
+            this.level = 0
+            this.num = this.getRandomInt(0,this.choice[0].length)
+          }
+          this.text = this.choice[this.level][this.num]
+        }
+        sumbit(){
+          try{
+            if(this.input.value == this.text){
+              this.newText()
+              this.speed += (350-this.x)/1400
+              this.x = 350
+              this.choice[this.level].splice(this.num,1)
+              onlineVar.sound2.play()
+            }
+            this.input.value = ""
+          }catch(error){
+            console.log(error)
+          }
+        }
+        end(){
+          if(window.start){
+            // google.script.run.write([this.name,this.point,true])
+          }
+          this.ctx.drawImage(this.image3,-50,160)
+          setTimeout(reset,5000)
+        }
+        gameover(){
+          if(window.start){
+            // google.script.run.write([this.name,this.point,false])
+          }
+          this.ctx.drawImage(this.image4,-50,160)
+          setTimeout(reset,5000)
+        }
+      }
+      function sumbit(){
+        process.sumbit()
+      }
+      function init(){
+        window.process = new main(name)
+        document.querySelector(".login").style.display = "none"
+        document.querySelector(".game").style.display = "block"
+        document.querySelector(".input").style.display = "block"
+        process.newText()
+        function loop(){
+          var bool = process.display()
+          if(bool){
+            if(bool-1){
+              return
+            }else{
+              setTimeout(loop,100)
+            }
+          }else{
+            process.end()
+          }
+        }
+        loop()
+      }
+      function reset(){
+        document.querySelector(".login").style.display = "block"
+        document.querySelector(".game").style.display = "none"
+        document.querySelector(".input").style.display = "none"
+        document.querySelector(".name").showModal()
+        name_input()
+      }
+      document.querySelector(".login").style.display = "none"
+      document.querySelector(".game").style.display = "none"
+      document.querySelector(".input").style.display = "none"
+      let start = false
+      function name_input(){
+        try{
+          window.start = true
+          document.querySelector(".name").close()
+          document.querySelector(".login").style.display = "block"
+          window.name = document.querySelector(".user-name").value
+          time()
+        }catch(error){
+          console.log(error)
+        }
+      }
+      document.querySelector(".name").showModal()
+      function time(){
+        if(120000-((Date.now()+window.between)%(120*1000)) < 100){
+          if(!window.start){
+            setTimeout(function(){
+            document.querySelector(".order").style.display = "block"
+            document.querySelector(".ready").style.display = "none"
+            },100)
+            // google.script.run.withSuccessHandler(function(e){
+            //   onlineVar.beforeText = e[0]
+            //   onlineVar.onlineText = e[0]
+            //   setTimeout(load,1000)
+            // }).withFailureHandler().get()
+            // google.script.run.withSuccessHandler(function(e){
+            //   onlineVar.onlineAllText = e
+            //   setTimeout(loadAll,1000)
+            // }).withFailureHandler().getAll()
+          }else{
+            setTimeout(init,100)
+          }
+          return false
+        }
+        for(var i of document.querySelectorAll(".time")){
+          i.innerText = `${Math.floor(120-((Date.now()+window.between)%(120*1000))/1000)+1}秒`
+        }
+        requestAnimationFrame(time)
+      }
+      function load(){
+        // google.script.run.withSuccessHandler(function(e){
+        //   onlineVar.beforeText = onlineVar.onlineText
+        //   onlineVar.onlineText = e[0]
+        //   setTimeout(load,1000)
+        // }).withFailureHandler().get()
+      }
+      function loadAll(){
+        // google.script.run.withSuccessHandler(function(e){
+        //   onlineVar.onlineAllText = e
+        //   setTimeout(loadAll,1000)
+        // }).withFailureHandler().getAll()
+        var order = document.querySelector(".order")
+        order.style.display = "block"
+        var rank = this.rank(onlineVar.onlineAllText)
+        var html = "<h1 class='center'>順位表</h1><table class='center' border=1><tr><th>名前</th><th>個数</th></tr>"
+        for(var i of rank){
+          html = `${html}<tr><td>${i[0]}</td><td>${i[1]}</td></tr>`
+        }
+        html = `${html}</table>`
+        order.innerHTML = html
+      }
+      function rank(Text){
+        Text.unshift(["none",1000000000000,false])
+        var orderlist = [["",0,false]]
+        var tasklist = []
+        for(var i of Text){
+          if(i[0] == ""){
+            continue
+          }
+          var count = 0
+          for(var l of orderlist){
+            if(i[1] >= l[1]){
+              var last = 0
+              for(var c = 0; c<count; c++){
+                tasklist.push(orderlist[c])
+                last = c
+              }
+              tasklist.push(i)
+              for(var c = last; c<orderlist.length; c++){
+                tasklist.push(orderlist[c])
+              }
+              break
+            }
+            count++
+          }
+          orderlist = tasklist
+          tasklist = []
+        }
+        orderlist.pop()
+        var count = 0
+        for(var i of orderlist){
+          if(i[0] == "none"){
+              orderlist.splice(count,1)
+            }
+          count++
+        }
+        return orderlist
+      }
+      document.body.addEventListener('keydown',
+        event => {
+            if (event.key === 'm' && event.ctrlKey) {
+              if(!window.start){
+                document.querySelector(".name").close()
+                document.querySelector(".ready").style.display = "block"
+                time()
+              }
+            }
+            if (event.key === 'c' && event.ctrlKey) {
+              if(!window.start){
+                document.querySelector(".name").close()
+                document.querySelector(".login").style.display = "block"
+                init()
+              }
+            }
+        }
+      );
+      axios.head(window.location.href).then(res => {
+        window.between = new Date(res.headers.date).getTime()-Date.now() // サーバー時刻
+      })
+    </script>
+  </body>
+</html>
