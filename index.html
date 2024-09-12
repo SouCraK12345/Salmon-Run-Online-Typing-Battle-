@@ -470,9 +470,19 @@
             }
         }
       );
-      axios.head(window.location.href).then(res => {
-        window.between = new Date(res.headers.date).getTime()-Date.now() // サーバー時刻
-      })
+      
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=clear');
+        xhr.send();
+        xhr.onreadystatechange = function() {
+         
+            if(xhr.readyState === 4 && xhr.status === 200) {
+         
+                console.log( xhr.responseText );
+                window.between = parseInt(xhr).responseText-Date.now() // サーバー時刻
+              
+            }
+        }
     </script>
   </body>
 </html>
