@@ -110,6 +110,17 @@
           this.canvas.width = 400
           this.canvas.height = 320
           // google.script.run.clear()
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=clear');
+          xhr.send();
+          xhr.onreadystatechange = function() {
+           
+              if(xhr.readyState === 4 && xhr.status === 200) {
+           
+                  console.log( xhr.responseText );
+                
+              }
+          }
           this.ctx = this.canvas.getContext("2d")
           this.x = 350
           this.text = ""
@@ -141,6 +152,20 @@
           //   onlineVar.onlineText = e[0]
           //   setTimeout(load,1000)
           // }).withFailureHandler().get()
+          
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=get');
+          xhr.send();
+          xhr.onreadystatechange = function() {
+           
+              if(xhr.readyState === 4 && xhr.status === 200) {
+           
+                  console.log( xhr.responseText );
+                  onlineVar.beforeText = xhr.responseText.split(",")
+                  onlineVar.onlineText = xhr.responseText.split(",")
+                
+              }
+          }
         }
         getRandomInt(min, max) {
           min = Math.ceil(min);
@@ -212,6 +237,17 @@
         end(){
           if(window.start){
             // google.script.run.write([this.name,this.point,true])
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=write&data:' + `${this.name},${this.point},${true}`);
+            xhr.send();
+            xhr.onreadystatechange = function() {
+             
+                if(xhr.readyState === 4 && xhr.status === 200) {
+             
+                    console.log( xhr.responseText );
+                  
+                }
+            }
           }
           this.ctx.drawImage(this.image3,-50,160)
           setTimeout(reset,5000)
@@ -219,6 +255,17 @@
         gameover(){
           if(window.start){
             // google.script.run.write([this.name,this.point,false])
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=write&data:' + `${this.name},${this.point},${false}`);
+            xhr.send();
+            xhr.onreadystatechange = function() {
+             
+                if(xhr.readyState === 4 && xhr.status === 200) {
+             
+                    console.log( xhr.responseText );
+                  
+                }
+            }
           }
           this.ctx.drawImage(this.image4,-50,160)
           setTimeout(reset,5000)
@@ -282,10 +329,35 @@
             //   onlineVar.onlineText = e[0]
             //   setTimeout(load,1000)
             // }).withFailureHandler().get()
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=get');
+            xhr.send();
+            xhr.onreadystatechange = function() {
+             
+                if(xhr.readyState === 4 && xhr.status === 200) {
+             
+                    console.log( xhr.responseText );
+                    onlineVar.beforeText = xhr.responseText.split(',')[0]
+                    onlineVar.onlineText = xhr.responseText.split(',')[0]
+                  
+                }
+            }
             // google.script.run.withSuccessHandler(function(e){
             //   onlineVar.onlineAllText = e
             //   setTimeout(loadAll,1000)
             // }).withFailureHandler().getAll()
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=getAll');
+            xhr.send();
+            xhr.onreadystatechange = function() {
+             
+                if(xhr.readyState === 4 && xhr.status === 200) {
+             
+                    console.log( xhr.responseText );
+                    onlineVar.onlineAllText = xhr.responseText
+                  
+                }
+            }
           }else{
             setTimeout(init,100)
           }
@@ -302,12 +374,37 @@
         //   onlineVar.onlineText = e[0]
         //   setTimeout(load,1000)
         // }).withFailureHandler().get()
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=get');
+            xhr.send();
+            xhr.onreadystatechange = function() {
+             
+                if(xhr.readyState === 4 && xhr.status === 200) {
+             
+                    console.log( xhr.responseText );
+                    onlineVar.beforeText = onlineVar.onlineText
+                    onlineVar.onlineText = shr.responseText[0]
+                  
+                }
+            }
       }
       function loadAll(){
         // google.script.run.withSuccessHandler(function(e){
         //   onlineVar.onlineAllText = e
         //   setTimeout(loadAll,1000)
         // }).withFailureHandler().getAll()
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=getAll');
+            xhr.send();
+            xhr.onreadystatechange = function() {
+             
+                if(xhr.readyState === 4 && xhr.status === 200) {
+             
+                    console.log( xhr.responseText );
+                    onlineVar.onlineAllText = onlineVar.onlineText
+                  
+                }
+            }
         var order = document.querySelector(".order")
         order.style.display = "block"
         var rank = this.rank(onlineVar.onlineAllText)
