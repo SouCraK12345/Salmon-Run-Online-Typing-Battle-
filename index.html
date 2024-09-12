@@ -69,6 +69,7 @@
     <div class="order"></div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
+      import * as "axios" from "https://unpkg.com/axios/dist/axios.min.js"
       class variable{
         constructor(){
           this.bt = []
@@ -470,9 +471,9 @@
             }
         }
       );
-      // head(window.location.href).then(res => {
-      //   window.between = new Date(res.headers.date).getTime()-Date.now() // サーバー時刻
-      // })
+      axios.head(window.location.href).then(res => {
+        window.between = new Date(res.headers.date).getTime()-Date.now() // サーバー時刻
+      })
     </script>
   </body>
 </html>
