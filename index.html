@@ -75,8 +75,32 @@
     <p class="center">開始まであと<label class="time"></label></p>
   </div>
   <div class="order"></div>
+  <div class="bg"><canvas class="background"
+      style="width:100%;height: 100px;position: fixed;left:0;bottom: 0;"></canvas>
+  </div>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="module">
+    class Background {
+      constructor() {
+        this.canvas = document.querySelector(".background")
+        // this.canvas.width = 500
+        this.canvas.height = 100
+        this.startTime = Date.now()
+        this.ctx = this.canvas.getContext("2d")
+      }
+      draw() {
+        this.ctx.clearRect(0, 0, 500, 100)
+        this.ctx.fillStyle = "green"
+        for (var i = 0; i < 3000; i++) {
+          var time = this.startTime - Date.now()
+          var y = Math.sin(i / 30) * 10 + 50
+          this.ctx.fillRect(i + time / 30, 100 - y, 1, y)
+        }
+        if (time <= -6000) {
+          this.startTime = Date.now()
+        }
+      }
+    }
     class variable {
       constructor() {
         this.bt = []
@@ -300,6 +324,13 @@
       }
       loop()
     }
+    window.background_task = new Background()
+    function bg_loop() {
+      background_task.draw()
+      background_task.canvas.style.marginTop = document.documentElement.offsetWidth - 150
+      requestAnimationFrame(bg_loop)
+    }
+    requestAnimationFrame(bg_loop)
     function reset() {
       document.querySelector(".login").style.display = "block"
       document.querySelector(".game").style.display = "none"
@@ -419,8 +450,8 @@
         var txt = Text.split(",")
         console.log(txt)
         var list = []
-        for(var i = 0;i <= txt.length; i += 3){
-          list.push([txt[i],txt[i+1],txt[i+2]])
+        for (var i = 0; i <= txt.length; i += 3) {
+          list.push([txt[i], txt[i + 1], txt[i + 2]])
         }
         list.unshift(["none", 1000000000000, false])
         var orderlist = [["", 0, false]]
