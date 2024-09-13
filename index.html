@@ -328,7 +328,7 @@
     window.background_task = new Background()
     function bg_loop() {
       background_task.draw()
-      background_task.canvas.style.marginTop = document.documentElement.offsetWidth - 150
+      background_task.canvas.style.marginTop = `${document.documentElement.clientHeight - 100}px`
       requestAnimationFrame(bg_loop)
     }
     requestAnimationFrame(bg_loop)
