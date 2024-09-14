@@ -94,8 +94,8 @@
     <p class="center">開始まであと<label class="time"></label></p>
   </div>
   <div class="order"></div>
-  <div class="bg" style="width:100%;height: 100px;position: fixed;left:0;">
-    <span style="width:100%;height: 400px;position:absolute;left:0;">
+  <div class="bg" style="width:100%;height: calc( 100% - 400px);position: fixed;left:0;">
+    <span style="width:100%;position:absolute;left:0;bottom: 0;">
       <img class="tide" src="キケン度.png"><label class="data"></label><img class="tide" src="percent.png">
     </span>
     <canvas class="background" style="width:100%;height: 400px;position:absolute;left:0;z-index:-1;"></canvas>
@@ -376,7 +376,7 @@
     function bg_loop() {
       background_task.draw()
       document.querySelector(".bg").style.marginTop = `${document.documentElement.clientHeight - 400}px`
-      document.querySelector("span").style.marginTop = `${document.documentElement.clientHeight - 700}px`
+      // document.querySelector("span").style.marginBottom = `20%`
       requestAnimationFrame(bg_loop)
     }
     requestAnimationFrame(bg_loop)
