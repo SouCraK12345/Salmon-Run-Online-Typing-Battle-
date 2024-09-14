@@ -48,7 +48,25 @@
     .ready {
       display: none;
     }
+
+    img.tide {
+      height: 30px;
+    }
+
+    .data {
+      font-family: "イカモドキ";
+      font-size: 40px;
+    }
+
+    .login {
+      position: absolute;
+    }
+
+    .ready {
+      position: absolute;
+    }
   </style>
+  <link rel="icon" href="favicon.ico">
 </head>
 
 <body>
@@ -76,8 +94,11 @@
     <p class="center">開始まであと<label class="time"></label></p>
   </div>
   <div class="order"></div>
-  <div class="bg"><canvas class="background"
-      style="width:100%;height: 100px;position: fixed;left:0;bottom: 0;"></canvas>
+  <div class="bg" style="width:100%;height: 100px;position: fixed;left:0;">
+    <span style="width:100%;height: 400px;position:absolute;left:0;">
+      <img class="tide" src="キケン度.png"><label class="data"></label><img class="tide" src="percent.png">
+    </span>
+    <canvas class="background" style="width:100%;height: 400px;position:absolute;left:0;z-index:-1;"></canvas>
   </div>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="module">
@@ -85,19 +106,33 @@
       constructor() {
         this.canvas = document.querySelector(".background")
         // this.canvas.width = 500
-        this.canvas.height = 100
+        this.canvas.height = 400
         this.startTime = Date.now()
         this.ctx = this.canvas.getContext("2d")
+        this.tide = "???"
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=tide');
+        xhr.send();
+        xhr.onreadystatechange = function () {
+
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var list = xhr.responseText.split(",")
+            console.log(list);
+            background_task.tide = parseInt(list[1])
+
+          }
+        }
       }
       draw() {
-        this.ctx.clearRect(0, 0, 500, 100)
-        this.ctx.fillStyle = "green"
-        for (var i = 0; i < 3000; i++) {
+        document.querySelector(".data").innerHTML = `${this.tide}`
+        this.ctx.clearRect(0, 0, 500, 400)
+        this.ctx.fillStyle = "#999999"
+        for (var i = 0; i < 3000; i += 10) {
           var time = this.startTime - Date.now()
-          var y = Math.sin(i / 30) * 10 + 50
-          this.ctx.fillRect(i + time / 30, 100 - y, 1, y)
+          var y = Math.sin((i * 5 + time) / 300) * 20 + this.tide
+          this.ctx.fillRect(i + time / 30, 400 - y, 11, y)
         }
-        if (time <= -6000) {
+        if (time <= -4500) {
           this.startTime = Date.now()
         }
       }
@@ -159,7 +194,7 @@
         this.x = 350
         this.text = ""
         this.level = 0
-        this.speed = 3
+        this.speed = 1 + (window.background_task.tide - 10) / 150
         this.num = 0
         this.point = -1
         this.starttimer = Math.floor(Date.now() / 1000)
@@ -257,7 +292,7 @@
       sumbit() {
         if (this.input.value == this.text) {
           this.newText()
-          this.speed += (350 - this.x) / 1400
+          this.speed += (350 - this.x) / 1400 * (window.background_task.tide / 300)
           this.x = 350
           this.choice[this.level].splice(this.num, 1)
           onlineVar.sound2.play()
@@ -328,7 +363,8 @@
     window.background_task = new Background()
     function bg_loop() {
       background_task.draw()
-      background_task.canvas.style.marginTop = `${document.documentElement.clientHeight - 100}px`
+      document.querySelector(".bg").style.marginTop = `${document.documentElement.clientHeight - 400}px`
+      document.querySelector("span").style.marginTop = `${document.documentElement.clientHeight - 700}px`
       requestAnimationFrame(bg_loop)
     }
     requestAnimationFrame(bg_loop)
@@ -338,6 +374,18 @@
       document.querySelector(".input").style.display = "none"
       document.querySelector(".name").showModal()
       name_input()
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=tide');
+      xhr.send();
+      xhr.onreadystatechange = function () {
+
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var list = xhr.responseText.split(",")
+          console.log(list);
+          background_task.tide = list[1]
+
+        }
+      }
     }
     document.querySelector(".login").style.display = "none"
     document.querySelector(".game").style.display = "none"
