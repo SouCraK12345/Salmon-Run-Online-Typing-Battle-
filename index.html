@@ -110,6 +110,7 @@
         this.startTime = Date.now()
         this.ctx = this.canvas.getContext("2d")
         this.tide = "???"
+        this.tide_time = -400
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=tide');
         xhr.send();
@@ -124,16 +125,27 @@
         }
       }
       draw() {
-        document.querySelector(".data").innerHTML = `${this.tide}`
+        if (window.displayTide) {
+          document.querySelector(".data").innerHTML = `${this.tide}`
+        } else {
+          document.querySelector(".data").innerHTML = `???`
+        }
         this.ctx.clearRect(0, 0, 500, 400)
         this.ctx.fillStyle = "#999999"
-        for (var i = 0; i < 3000; i += 10) {
-          var time = this.startTime - Date.now()
-          var y = Math.sin((i * 5 + time) / 300) * 20 + this.tide
-          this.ctx.fillRect(i + time / 30, 400 - y, 11, y)
-        }
-        if (time <= -4500) {
-          this.startTime = Date.now()
+        if (window.displayTide) {
+          for (var i = 0; i < 3000; i += 10) {
+            var time = this.startTime - Date.now()
+            var y = Math.sin((i * 5 + time) / 300) * 20 + this.tide - this.tide_time
+            this.ctx.fillRect(i + time / 30, 400 - y, 11, y)
+          }
+          if (time <= -4500) {
+            this.startTime = Date.now()
+          }
+          if(this.tide_time < 0){
+            this.tide_time += 4
+          }
+        }else{
+          this.tide_time = -400
         }
       }
     }
@@ -369,6 +381,7 @@
     }
     requestAnimationFrame(bg_loop)
     function reset() {
+      window.displayTide = false;
       document.querySelector(".login").style.display = "block"
       document.querySelector(".game").style.display = "none"
       document.querySelector(".input").style.display = "none"
@@ -404,6 +417,9 @@
     }
     document.querySelector(".name").showModal()
     function time() {
+      if (120000 - ((Date.now() + window.between) % (120 * 1000)) < 100) {
+        window.displayTide = true;
+      }
       if (120000 - ((Date.now() + window.between) % (120 * 1000)) < 100) {
         if (!window.start) {
           setTimeout(function () {
@@ -570,7 +586,7 @@
         }
       }
     );
-
+    window.displayTide = false;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://script.google.com/macros/s/AKfycbzqb3lmSol23hO2Xk6su53tMFi-UVf_F_NJnPb6_CwEgSZuVHOR43vFB9K9nqTSmsWq/exec?type=time');
     xhr.send();
