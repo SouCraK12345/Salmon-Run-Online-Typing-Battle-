@@ -65,6 +65,11 @@
     .ready {
       position: absolute;
     }
+
+    .tide_max {
+      display: none;
+      position: absolute;
+    }
   </style>
   <link rel="icon" href="favicon.ico">
 </head>
@@ -94,16 +99,18 @@
     <p class="center">開始まであと<label class="time"></label></p>
   </div>
   <div class="order"></div>
-  <div class="bg" style="width:100%;height: calc( 100% - 400px);position: fixed;left:0;">
-    <span style="width:100%;position:absolute;left:0;bottom: 0;">
-      <img class="tide" src="キケン度.png"><label class="data"></label><img class="tide" src="percent.png">
-    </span>
+  <span style="width:100%;position:absolute;left:0;bottom: 0;">
+    <img class="tide" src="キケン度.png"><label class="data"></label><img class="tide" src="percent.png">
+  </span>
+  <div class="bg" style="width:100%;height: calc( 100% - 400px);position: fixed;left:0;z-index:-1;">
     <canvas class="background" style="width:100%;height: 400px;position:absolute;left:0;z-index:-1;"></canvas>
   </div>
+  <img class="tide_max" src="Max.png">
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="module">
     class Background {
       constructor() {
+        //canvas
         this.canvas = document.querySelector(".background")
         // this.canvas.width = 500
         this.canvas.height = 400
@@ -141,10 +148,10 @@
           if (time <= -4500) {
             this.startTime = Date.now()
           }
-          if(this.tide_time < 0){
+          if (this.tide_time < 0) {
             this.tide_time += 4
           }
-        }else{
+        } else {
           this.tide_time = -400
         }
       }
@@ -352,6 +359,7 @@
       process.sumbit()
     }
     function init() {
+      document.querySelector(".tide_max").style.display = "none"
       window.start = true
       window.process = new main(name)
       document.querySelector(".login").style.display = "none"
@@ -418,7 +426,29 @@
     document.querySelector(".name").showModal()
     function time() {
       if (120000 - ((Date.now() + window.between) % (120 * 1000)) < 10100) {
-        window.displayTide = true;
+        if (!window.displayTide) {
+          window.displayTide = true;
+          //img
+          if (background_task.tide == 333) {
+            function imgLoop(n) {
+              var img = document.querySelector(".tide_max")
+              img.style.display = "block"
+              img.style.opacity = n
+              img.style.width = `${593 * (2 - n)}px`
+              img.style.height = `${107 * (2 - n)}px`
+              img.style.transform = `rotate(${((n * 5) + 2.6) * 90}deg)`
+              img.style.top = `calc(50% - ${img.style.width} / 10)`
+              img.style.left = `calc(50% - ${img.style.height} * 3)`
+              // img.style.top = `calc(50%)`
+              // img.style.left = `calc(50%)`
+              if (n < 1) {
+                requestAnimationFrame(function () { imgLoop(n + 0.1) })
+              }
+            }
+            requestAnimationFrame(function () { imgLoop(0) })
+          }
+        }
+
       }
       if (120000 - ((Date.now() + window.between) % (120 * 1000)) < 100) {
         if (!window.start) {
