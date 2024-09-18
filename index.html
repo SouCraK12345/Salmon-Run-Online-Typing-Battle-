@@ -53,7 +53,8 @@
       height: 30px;
     }
 
-    .data,.typePower {
+    .data,
+    .typePower {
       font-family: "イカモドキ";
       font-size: 40px;
     }
@@ -112,14 +113,149 @@
   <span style="width:100%;position:absolute;left:0;bottom: 0;">
     <img class="tide" src="キケン度.png"><label class="data"></label><img class="tide" src="percent.png">
   </span>
-  <span style="width:100%;position:absolute;left: calc(100% - 450px);bottom: 0;"><img src="推定タイプパワー.png" class="tide"><label class="typePower">計測中...</label></span>
+  <span style="width:100%;position:absolute;left: calc(100% - 450px);bottom: 0;"><img src="推定タイプパワー.png"
+      class="tide"><label class="typePower">計測中...</label></span>
   <div class="bg" style="width:100%;height: calc( 100% - 400px);position: fixed;left:0;z-index:-1;">
     <canvas class="background" style="width:100%;height: 400px;position:absolute;left:0;z-index:-1;"></canvas>
   </div>
   <img class="tide_max" src="Max.png">
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="module">
-    import jsonTextList from './text.json' with {type: 'json'};
+    // import jsonTextList from './text.json' with {type: 'json'};
+   window.jsonTextList = {
+      "タケシンジブリスタジオ": [
+        [
+          [
+            "ラピュタ",
+            "らぴゅた"
+          ],
+          [
+            "ドーラ",
+            "どーら"
+          ],
+          [
+            "パズー",
+            "ぱずー"
+          ],
+          [
+            "シータ",
+            "しーた"
+          ],
+          [
+            "ムスカ",
+            "むすか"
+          ],
+          [
+            "おばさん"
+          ],
+          [
+            "おじさん"
+          ],
+          [
+            "メイ",
+            "めい"
+          ],
+          [
+            "トトロ",
+            "ととろ"
+          ],
+          [
+            "サツキ",
+            "さつき"
+          ]
+        ],
+        [
+          [
+            "船長とお呼び",
+            "せんちょうとおよび"
+          ],
+          [
+            "空から女の子が降ってきた",
+            "そらからおんなのこがふってきた"
+          ],
+          [
+            "ラピュタは滅びぬ",
+            "らぴゅたはほろびぬ"
+          ],
+          [
+            "何度でも蘇るさ",
+            "なんどでもよみがえるさ"
+          ],
+          [
+            "3分間待ってやる",
+            "さんふんかんまってやる",
+            "さんぷんかんまってやる"
+          ],
+          [
+            "鬼ごっこは終わりだ",
+            "おにごっこはおわりだ"
+          ],
+          [
+            "いい子じゃないか",
+            "いいこじゃないか"
+          ],
+          [
+            "トトロいたもん!",
+            "ととろいたもん!"
+          ],
+          [
+            "お母さんはいいの!",
+            "おかあさんはいいの!"
+          ],
+          [
+            "お母さん笑ってるよ",
+            "おかあさんわらってるよ"
+          ],
+          [
+            "お客様とて許せぬ",
+            "おきゃくさまとてゆるせぬ"
+          ],
+          [
+            "コクリコ板",
+            "こくりこいた"
+          ],
+          [
+            "マーニーを助けたい",
+            "まーにーをたすけたい"
+          ]
+        ],
+        [
+          [
+            "40秒で支度しな",
+            "よんじゅうびょうでしたくしな"
+          ],
+          [
+            "女は度胸だ。お前たち援護しな",
+            "おんなはどきょうだ。おまえたちえんごしな"
+          ],
+          [
+            "僕の頭は親方のげんこつより硬いんだ",
+            "ぼくのあたまはおやかたのげんこつよりかたいんだ"
+          ],
+          [
+            "リーテラトバリタウルスアリアロスバルネトリール",
+            "りーてらとばりたうるすありあろすばるねとりーる"
+          ],
+          [
+            "一度あったことは忘れないものさ",
+            "いちどあったことはわすれないものさ"
+          ],
+          [
+            "夢だけど夢じゃなかった",
+            "ゆめだけどゆめじゃなかった"
+          ],
+          [
+            "仲間外れを作っちゃかわいそうだろうが",
+            "なかまはずれをつくっちゃかわいそうだろうが"
+          ],
+          [
+            "飛ばねぇ豚はただの豚",
+            "とばねぇぶたはただのぶた",
+            "とばねえぶたはただのぶた"
+          ]
+        ]
+      ]
+    }
     class Background {
       constructor() {
         //canvas
@@ -420,7 +556,7 @@
     requestAnimationFrame(bg_loop)
     function reset() {
       window.displayTide = false;
-      window.process.choice = jsonTextList["タケシンジブリスタジオ"]
+      window.process.choice = window.jsonTextList["タケシンジブリスタジオ"]
       window.process.level = 0
       if (!window.TP && window.battleHistory.length == 2) {
         var average = [window.battleHistory[0][0] + window.battleHistory[1][0]] / 2
