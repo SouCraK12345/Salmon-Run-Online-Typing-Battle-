@@ -1,6 +1,6 @@
-Salmon Run [Online Typing Battle] ver 2.1
+# Salmon Run [Online Typing Battle] ver 2.1
 
-# アップデート内容
+## アップデート内容
 ⁠ステージ「タケシンジブリスタジオ」を追加しました。
 
 シフトがそのステージの時、タイプする文章のリストにスタジオジブリの名言が入るようになります。
