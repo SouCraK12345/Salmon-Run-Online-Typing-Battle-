@@ -420,8 +420,8 @@
     requestAnimationFrame(bg_loop)
     function reset() {
       window.displayTide = false;
-      process.choice = jsonTextList["タケシンジブリスタジオ"]
-      process.level = 0
+      window.process.choice = jsonTextList["タケシンジブリスタジオ"]
+      window.process.level = 0
       if (!window.TP && window.battleHistory.length == 2) {
         var average = [window.battleHistory[0][0] + window.battleHistory[1][0]] / 2
         window.TP = 500 + 50 * average
