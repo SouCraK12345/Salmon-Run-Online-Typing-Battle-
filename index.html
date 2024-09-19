@@ -122,139 +122,141 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="module">
     // import jsonTextList from './text.json' with {type: 'json'};
-   window.jsonTextList = {
-      "タケシンジブリスタジオ": [
-        [
+    function text_set() {
+      window.jsonTextList = {
+        "タケシンジブリスタジオ": [
           [
-            "ラピュタ",
-            "らぴゅた"
+            [
+              "ラピュタ",
+              "らぴゅた"
+            ],
+            [
+              "ドーラ",
+              "どーら"
+            ],
+            [
+              "パズー",
+              "ぱずー"
+            ],
+            [
+              "シータ",
+              "しーた"
+            ],
+            [
+              "ムスカ",
+              "むすか"
+            ],
+            [
+              "おばさん"
+            ],
+            [
+              "おじさん"
+            ],
+            [
+              "メイ",
+              "めい"
+            ],
+            [
+              "トトロ",
+              "ととろ"
+            ],
+            [
+              "サツキ",
+              "さつき"
+            ]
           ],
           [
-            "ドーラ",
-            "どーら"
+            [
+              "船長とお呼び",
+              "せんちょうとおよび"
+            ],
+            [
+              "空から女の子が降ってきた",
+              "そらからおんなのこがふってきた"
+            ],
+            [
+              "ラピュタは滅びぬ",
+              "らぴゅたはほろびぬ"
+            ],
+            [
+              "何度でも蘇るさ",
+              "なんどでもよみがえるさ"
+            ],
+            [
+              "3分間待ってやる",
+              "さんふんかんまってやる",
+              "さんぷんかんまってやる"
+            ],
+            [
+              "鬼ごっこは終わりだ",
+              "おにごっこはおわりだ"
+            ],
+            [
+              "いい子じゃないか",
+              "いいこじゃないか"
+            ],
+            [
+              "トトロいたもん!",
+              "ととろいたもん!"
+            ],
+            [
+              "お母さんはいいの!",
+              "おかあさんはいいの!"
+            ],
+            [
+              "お母さん笑ってるよ",
+              "おかあさんわらってるよ"
+            ],
+            [
+              "お客様とて許せぬ",
+              "おきゃくさまとてゆるせぬ"
+            ],
+            [
+              "コクリコ板",
+              "こくりこいた"
+            ],
+            [
+              "マーニーを助けたい",
+              "まーにーをたすけたい"
+            ]
           ],
           [
-            "パズー",
-            "ぱずー"
-          ],
-          [
-            "シータ",
-            "しーた"
-          ],
-          [
-            "ムスカ",
-            "むすか"
-          ],
-          [
-            "おばさん"
-          ],
-          [
-            "おじさん"
-          ],
-          [
-            "メイ",
-            "めい"
-          ],
-          [
-            "トトロ",
-            "ととろ"
-          ],
-          [
-            "サツキ",
-            "さつき"
-          ]
-        ],
-        [
-          [
-            "船長とお呼び",
-            "せんちょうとおよび"
-          ],
-          [
-            "空から女の子が降ってきた",
-            "そらからおんなのこがふってきた"
-          ],
-          [
-            "ラピュタは滅びぬ",
-            "らぴゅたはほろびぬ"
-          ],
-          [
-            "何度でも蘇るさ",
-            "なんどでもよみがえるさ"
-          ],
-          [
-            "3分間待ってやる",
-            "さんふんかんまってやる",
-            "さんぷんかんまってやる"
-          ],
-          [
-            "鬼ごっこは終わりだ",
-            "おにごっこはおわりだ"
-          ],
-          [
-            "いい子じゃないか",
-            "いいこじゃないか"
-          ],
-          [
-            "トトロいたもん!",
-            "ととろいたもん!"
-          ],
-          [
-            "お母さんはいいの!",
-            "おかあさんはいいの!"
-          ],
-          [
-            "お母さん笑ってるよ",
-            "おかあさんわらってるよ"
-          ],
-          [
-            "お客様とて許せぬ",
-            "おきゃくさまとてゆるせぬ"
-          ],
-          [
-            "コクリコ板",
-            "こくりこいた"
-          ],
-          [
-            "マーニーを助けたい",
-            "まーにーをたすけたい"
-          ]
-        ],
-        [
-          [
-            "40秒で支度しな",
-            "よんじゅうびょうでしたくしな"
-          ],
-          [
-            "女は度胸だ。お前たち援護しな",
-            "おんなはどきょうだ。おまえたちえんごしな"
-          ],
-          [
-            "僕の頭は親方のげんこつより硬いんだ",
-            "ぼくのあたまはおやかたのげんこつよりかたいんだ"
-          ],
-          [
-            "リーテラトバリタウルスアリアロスバルネトリール",
-            "りーてらとばりたうるすありあろすばるねとりーる"
-          ],
-          [
-            "一度あったことは忘れないものさ",
-            "いちどあったことはわすれないものさ"
-          ],
-          [
-            "夢だけど夢じゃなかった",
-            "ゆめだけどゆめじゃなかった"
-          ],
-          [
-            "仲間外れを作っちゃかわいそうだろうが",
-            "なかまはずれをつくっちゃかわいそうだろうが"
-          ],
-          [
-            "飛ばねぇ豚はただの豚",
-            "とばねぇぶたはただのぶた",
-            "とばねえぶたはただのぶた"
+            [
+              "40秒で支度しな",
+              "よんじゅうびょうでしたくしな"
+            ],
+            [
+              "女は度胸だ。お前たち援護しな",
+              "おんなはどきょうだ。おまえたちえんごしな"
+            ],
+            [
+              "僕の頭は親方のげんこつより硬いんだ",
+              "ぼくのあたまはおやかたのげんこつよりかたいんだ"
+            ],
+            [
+              "リーテラトバリタウルスアリアロスバルネトリール",
+              "りーてらとばりたうるすありあろすばるねとりーる"
+            ],
+            [
+              "一度あったことは忘れないものさ",
+              "いちどあったことはわすれないものさ"
+            ],
+            [
+              "夢だけど夢じゃなかった",
+              "ゆめだけどゆめじゃなかった"
+            ],
+            [
+              "仲間外れを作っちゃかわいそうだろうが",
+              "なかまはずれをつくっちゃかわいそうだろうが"
+            ],
+            [
+              "飛ばねぇ豚はただの豚",
+              "とばねぇぶたはただのぶた",
+              "とばねえぶたはただのぶた"
+            ]
           ]
         ]
-      ]
+      }
     }
     class Background {
       constructor() {
@@ -366,12 +368,17 @@
         this.speed = 1 + (window.background_task.tide - 10) / 150
         this.num = 0
         this.point = -1
+        this.quota = 0
+        if (window.TP) {
+          this.quota = (window.TP - 500) / 50 - 10
+        }
         this.starttimer = Math.floor(Date.now() / 1000)
         this.image = new Image()
         this.image2 = new Image()
         this.image3 = new Image()
         this.image4 = new Image()
         this.image5 = new Image()
+        text_set()
         this.choice = jsonTextList["タケシンジブリスタジオ"]
         // this.choice = [
         //   ["メモ", "リピート", "フォルダ", "ファイル", "まぐろ", "イカ", "たちうお", "タコ", "鮭", "サーモン", "こんにちは", "ここはどこ?", "あなただれ?", "私は誰?", "きつね", "キーボード", "シャッフル", "デプロイ", "英語", "アサリ", "エリア", "ホコ", "ヤグラ", "ナワバリ", "炙りカルビ", "腕時計", "ライトアップ", "松茸ご飯", "完全燃焼"],
@@ -429,6 +436,10 @@
         }
         this.ctx.font = "30px Mv Boli"
         this.ctx.fillText(`x${this.point}`, 300, 40)
+        if (this.quota > 0) {
+          this.ctx.fillRect(300, 50, 350, 2)
+          this.ctx.fillText(`${this.quota}`, 320, 80)
+        }
         this.ctx.fillText(`${100 - (Math.floor(Date.now() / 1000) - this.starttimer)}`, 30, 40)
         if (onlineVar.beforeText[0] != onlineVar.onlineText[0] && typeof onlineVar.onlineText == "undefined") {
           this.state.innerHTML = `<p style="color:#ffffff;">ユーザー名${onlineVar.onlineText[0]}が${onlineVar.onlineText[1]}で${{ true: "終了!", false: "失敗!" }[onlineVar.onlineText[2]]}</p>`
@@ -496,7 +507,13 @@
           }
           window.battleHistory.push([this.point, true])
         }
-        this.ctx.drawImage(this.image3, -50, 160)
+        if (this.quota <= this.point) {
+          this.ctx.drawImage(this.image3, -50, 160)
+        } else {
+          this.ctx.drawImage(this.image4, -50, 160)
+        }
+        window.TP += this.point - this.quota
+        document.querySelector("label.typePower").innerHTML = window.TP
         setTimeout(reset, 5000)
       }
       gameover() {
@@ -526,8 +543,7 @@
       document.querySelector(".tide_max").style.display = "none"
       window.start = true
       window.process = new main(name)
-      window.battleHistory = []
-      window.TP = null
+      text_set()
       document.querySelector(".login").style.display = "none"
       document.querySelector(".game").style.display = "block"
       document.querySelector(".input").style.display = "block"
@@ -556,11 +572,12 @@
     requestAnimationFrame(bg_loop)
     function reset() {
       window.displayTide = false;
-      window.process.choice = window.jsonTextList["タケシンジブリスタジオ"]
+      text_set()
       window.process.level = 0
       if (!window.TP && window.battleHistory.length == 2) {
         var average = [window.battleHistory[0][0] + window.battleHistory[1][0]] / 2
         window.TP = 500 + 50 * average
+        document.querySelector("label.typePower").innerHTML = window.TP
       }
       document.querySelector(".login").style.display = "block"
       document.querySelector(".game").style.display = "none"
@@ -802,6 +819,8 @@
 
       }
     }
+    window.battleHistory = []
+    window.TP = null
   </script>
 </body>
 
