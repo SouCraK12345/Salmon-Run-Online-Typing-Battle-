@@ -513,8 +513,11 @@
           } else {
             this.ctx.drawImage(this.image4, -50, 160)
           }
-          window.TP += parseInt(this.point - this.quota) * 2
+          window.TP += parseInt(this.point - this.quota) * 5
+          localStorage.setItem("TP", window.TP);
           document.querySelector("label.typePower").innerHTML = window.TP
+        } else {
+          this.ctx.drawImage(this.image3, -50, 160)
         }
         setTimeout(reset, 5000)
       }
@@ -532,7 +535,12 @@
 
             }
           }
-          window.TP += -50
+
+          if (window.TP && this.point != 0) {
+            window.TP += -60
+            localStorage.setItem("TP", window.TP);
+            document.querySelector("label.typePower").innerHTML = window.TP
+          }
           window.battleHistory.push([this.point, false])
         }
         this.ctx.drawImage(this.image4, -50, 160)
@@ -823,7 +831,10 @@
       }
     }
     window.battleHistory = []
-    window.TP = null
+    window.TP = parseInt(localStorage.getItem("TP"));
+    if (window.TP) {
+      document.querySelector("label.typePower").innerHTML = window.TP
+    }
   </script>
 </body>
 
