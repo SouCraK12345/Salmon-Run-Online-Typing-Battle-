@@ -370,7 +370,7 @@
         this.point = -1
         this.quota = 0
         if (window.TP) {
-          this.quota = (window.TP - 500) / 50 - 10
+          this.quota = parseInt((window.TP - 500) / 50 - 10)
         }
         this.starttimer = Math.floor(Date.now() / 1000)
         this.image = new Image()
@@ -507,13 +507,15 @@
           }
           window.battleHistory.push([this.point, true])
         }
-        if (this.quota <= this.point) {
-          this.ctx.drawImage(this.image3, -50, 160)
-        } else {
-          this.ctx.drawImage(this.image4, -50, 160)
+        if (window.TP) {
+          if (this.quota <= this.point) {
+            this.ctx.drawImage(this.image3, -50, 160)
+          } else {
+            this.ctx.drawImage(this.image4, -50, 160)
+          }
+          window.TP += parseInt(this.point - this.quota) * 2
+          document.querySelector("label.typePower").innerHTML = window.TP
         }
-        window.TP += this.point - this.quota
-        document.querySelector("label.typePower").innerHTML = window.TP
         setTimeout(reset, 5000)
       }
       gameover() {
@@ -530,6 +532,7 @@
 
             }
           }
+          window.TP += -50
           window.battleHistory.push([this.point, false])
         }
         this.ctx.drawImage(this.image4, -50, 160)
