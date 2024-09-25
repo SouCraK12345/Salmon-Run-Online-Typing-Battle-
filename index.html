@@ -212,8 +212,8 @@
               "おきゃくさまとてゆるせぬ"
             ],
             [
-              "コクリコ板",
-              "こくりこいた"
+              "コクリコ坂",
+              "こくりこさか"
             ],
             [
               "マーニーを助けたい",
@@ -588,6 +588,7 @@
       if (!window.TP && window.battleHistory.length == 2) {
         var average = [window.battleHistory[0][0] + window.battleHistory[1][0]] / 2
         window.TP = 500 + 50 * average
+        localStorage.setItem("TP", window.TP);
         document.querySelector("label.typePower").innerHTML = window.TP
       }
       document.querySelector(".login").style.display = "block"
