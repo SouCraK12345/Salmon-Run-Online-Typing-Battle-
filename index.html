@@ -104,6 +104,7 @@
       <li>問題文に書かれている1行目～3行目のいずれかの文を打ってください</li>
       <li>制限時間は100秒ですが，みぎからやってくる"コジャケ"にやられるとゲームオーバーです。</li>
     </ul>
+    <button class="one-player-mode" onclick="name_input()" disabled></button>
   </dialog>
   <div class="ready">
     <h1 class="center">準備はいい?</h1>
@@ -614,6 +615,7 @@
     document.querySelector(".game").style.display = "none"
     document.querySelector(".input").style.display = "none"
     let start = false
+    document.querySelector(".user-name").addEventListener("keydown", function () { document.querySelector(".one-player-mode").disabled = false })
     function name_input() {
       try {
         window.start = true
