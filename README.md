@@ -1,9 +1,11 @@
-# Salmon Run [Online Typing Battle] ver 3.5
+# Salmon Run [Online Typing Battle] ver 3.6
 
 ## アップデート内容
-ランキングを表示するボタンを追加しました。
+数字を全角対応にしました。
 
 ## 過去のアップデート内容
+### ver 3.5 
+ランキングを表示するボタンを追加しました。
 ### ver 3.4
 レートがデバイスに保存されないバグを修正しました。
 
